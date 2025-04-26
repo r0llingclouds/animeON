@@ -7,7 +7,7 @@
 
 import SwiftUI
 import SwiftData
-import SMP25Kit  // Assuming this contains AsyncImageVM like in original app
+import SMP25Kit
 
 struct AnimePosterView: View {
     @Environment(AnimeVM.self) private var vm
