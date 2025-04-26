@@ -57,31 +57,25 @@ actor AnimeContainer {
     }
     
     func searchAnime(title: String) async throws -> Anime? {
-        // Check if we already have this anime in the database
-        let descriptor = FetchDescriptor<Anime>(
-            predicate: #Predicate {
-                $0.englishTitle?.localizedCaseInsensitiveContains(title) == true ||
-                $0.romajiTitle.localizedCaseInsensitiveContains(title)
+        // First try searching via API - simpler approach that avoids predicate issues
+        if let animeDTO = try await repository.searchAnime(title: title) {
+            // Check if we already have this specific anime in database by ID
+            let idDescriptor = FetchDescriptor<Anime>(
+                predicate: #Predicate { $0.id == animeDTO.id }
+            )
+            
+            let existingById = try modelContext.fetch(idDescriptor)
+            if let existing = existingById.first {
+                return existing
             }
-        )
-        
-        let existingResults = try modelContext.fetch(descriptor)
-        if let existingAnime = existingResults.first {
-            return existingAnime
-        }
-        
-        // If not found locally, search via API
-        guard let animeDTO = try await repository.searchAnime(title: title) else {
-            return nil
-        }
-        
-        // Convert DTO to entity and save
-        let animeEntities = try loadAnime(animeDTO: [animeDTO])
-        if modelContext.hasChanges {
+            
+            // If not found, convert DTO to entity and save
+            let animeEntities = try loadAnime(animeDTO: [animeDTO])
             try modelContext.save()
+            return animeEntities.first
         }
         
-        return animeEntities.first
+        return nil
     }
     
     private func getOrCreateGenre(name: String) throws -> Genre {

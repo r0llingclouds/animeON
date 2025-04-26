@@ -30,7 +30,8 @@ struct ContentView: View {
     }
 }
 
-#Preview(traits: .sampleData) {
+#Preview {
     ContentView()
         .environment(AnimeVM())
+        .modelContainer(for: [Anime.self])
 }

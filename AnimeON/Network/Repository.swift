@@ -5,7 +5,6 @@
 //  Created by Tirso López Ausens on 26/4/25.
 //
 
-
 import Foundation
 import SMP25Kit
 
@@ -20,13 +19,13 @@ struct Repository: NetworkRepository {
 
 // Update the protocol for anime operations
 protocol NetworkRepository: NetworkInteractor, Sendable {
-    func getPopularAnime() async throws(NetworkError) -> [AnimeDTO]
-    func searchAnime(title: String) async throws(NetworkError) -> AnimeDTO?
+    func getPopularAnime() async throws -> [AnimeDTO]
+    func searchAnime(title: String) async throws -> AnimeDTO?
 }
 
 // Implementation for Anilist API
 extension NetworkRepository {
-    func getPopularAnime() async throws(NetworkError) -> [AnimeDTO] {
+    func getPopularAnime() async throws -> [AnimeDTO] {
         let query = """
         query {
           Page(page: 1, perPage: 20) {
@@ -59,7 +58,7 @@ extension NetworkRepository {
         return media
     }
     
-    func searchAnime(title: String) async throws(NetworkError) -> AnimeDTO? {
+    func searchAnime(title: String) async throws -> AnimeDTO? {
         let query = """
         query ($title: String) {
           Media(search: $title, type: ANIME) {

@@ -20,6 +20,9 @@ struct AnimeONApp: App {
                 .navigationViewStyle(.stack)
                 .onAppear {
                     print("Documents directory: \(URL.documentsDirectory)")
+                    
+                    // Run API tests
+                    APITester.testAPIConnections()
                 }
         }
         .modelContainer(for: [Anime.self, Genre.self, AnimeGenres.self]) { result in

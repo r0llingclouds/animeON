@@ -14,7 +14,7 @@ final class Anime {
     var englishTitle: String?
     var romajiTitle: String
     var nativeTitle: String?
-    var description: String?
+    var descriptionAnime: String?
     var coverImageURL: URL?
     var episodes: Int?
     var averageScore: Double?
@@ -30,7 +30,7 @@ final class Anime {
         self.englishTitle = englishTitle
         self.romajiTitle = romajiTitle
         self.nativeTitle = nativeTitle
-        self.description = description
+        self.descriptionAnime = description
         self.coverImageURL = coverImageURL
         self.episodes = episodes
         self.averageScore = averageScore
