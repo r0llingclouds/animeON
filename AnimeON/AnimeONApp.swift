@@ -8,34 +8,39 @@
 import SwiftUI
 import SwiftData
 
-let APIKey = ""
-
 @main
-struct PeliculONApp: App {
-    @State private var container: PeliculONContainer?
-    @State private var vm = MoviesVM()
+struct AnimeONApp: App {
+    @State private var container: AnimeContainer?
+    @State private var vm = AnimeVM()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environment(vm)
+                .navigationViewStyle(.stack)
                 .onAppear {
-                    print(URL.documentsDirectory)
+                    print("Documents directory: \(URL.documentsDirectory)")
                 }
         }
-        .modelContainer(for: Movies.self) { result in
-            guard case .success(let container) = result else { return }
-            Task(priority: .low) { await loadData(container) }
+        .modelContainer(for: [Anime.self, Genre.self, AnimeGenres.self]) { result in
+            switch result {
+            case .success(let container):
+                Task(priority: .userInitiated) {
+                    await loadData(container)
+                }
+            case .failure(let error):
+                print("Failed to create model container: \(error)")
+            }
         }
     }
     
     func loadData(_ container: ModelContainer) async {
         do {
-            self.container = PeliculONContainer(modelContainer: container)
+            self.container = AnimeContainer(modelContainer: container)
             try await self.container?.loadInitialData()
+            print("Successfully loaded initial anime data")
         } catch {
-            print("Error en la carga de datos \(error).")
+            print("Error loading anime data: \(error)")
         }
     }
 }
-

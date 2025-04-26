@@ -9,34 +9,82 @@
 import Foundation
 import SMP25Kit
 
+// Keep the existing Repository structure but update it for Anilist
 struct Repository: NetworkRepository {
     var decoder: JSONDecoder {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        decoder.dateDecodingStrategy = .formatted(formatter)
         return decoder
     }
 }
 
+// Update the protocol for anime operations
 protocol NetworkRepository: NetworkInteractor, Sendable {
-    func getGenres() async throws(NetworkError) -> [GenresDTO]
-    func getNowPlaying() async throws(NetworkError) -> [MovieDTO]
-    func getUpcoming() async throws(NetworkError) -> [MovieDTO]
+    func getPopularAnime() async throws(NetworkError) -> [AnimeDTO]
+    func searchAnime(title: String) async throws(NetworkError) -> AnimeDTO?
 }
 
-extension NetworkRepository {    
-    func getGenres() async throws(NetworkError) -> [GenresDTO] {
-        try await getJSON(.get(url: .genres, token: APIKey), type: GenresResponseDTO.self).genres
+// Implementation for Anilist API
+extension NetworkRepository {
+    func getPopularAnime() async throws(NetworkError) -> [AnimeDTO] {
+        let query = """
+        query {
+          Page(page: 1, perPage: 20) {
+            media(sort: POPULARITY_DESC, type: ANIME) {
+              id
+              title {
+                english
+                romaji
+                native
+              }
+              coverImage {
+                large
+                medium
+              }
+              description
+              episodes
+              averageScore
+              genres
+            }
+          }
+        }
+        """
+        
+        let response = try await sendGraphQLRequest(query: query, variables: [:]) as AnimeResponse
+        
+        guard let media = response.data.Page?.media else {
+            return []
+        }
+        
+        return media
     }
     
-    func getNowPlaying() async throws(NetworkError) -> [MovieDTO] {
-        try await getJSON(.get(url: .nowPlaying, token: APIKey), type: Results.self).results
-    }
-    
-    func getUpcoming() async throws(NetworkError) -> [MovieDTO] {
-        try await getJSON(.get(url: .upcoming, token: APIKey), type: Results.self).results
+    func searchAnime(title: String) async throws(NetworkError) -> AnimeDTO? {
+        let query = """
+        query ($title: String) {
+          Media(search: $title, type: ANIME) {
+            id
+            title {
+              english
+              romaji
+              native
+            }
+            coverImage {
+              large
+              medium
+            }
+            description
+            episodes
+            averageScore
+            genres
+          }
+        }
+        """
+        
+        let variables: [String: Any] = ["title": title]
+        
+        let response = try await sendGraphQLRequest(query: query, variables: variables) as AnimeResponse
+        
+        return response.data.Media
     }
 }

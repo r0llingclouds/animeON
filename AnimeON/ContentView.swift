@@ -9,25 +9,28 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Environment(MoviesVM.self) private var vm
-    @Query(filter: #Predicate { $0.nowPlaying },
-           sort: [SortDescriptor<Movies>(\.title)])
-        var movies: [Movies]
-    let column = [GridItem(.adaptive(minimum: 150))]
+    @Environment(AnimeVM.self) private var vm
+    @Query(sort: [SortDescriptor<Anime>(\.romajiTitle)])
+    var animeList: [Anime]
+    
+    let columns = [GridItem(.adaptive(minimum: 150))]
     
     var body: some View {
-        ScrollView {
-            LazyVGrid(columns: column) {
-                ForEach(movies) { movie in
-                    PosterView(movie: movie)
+        NavigationStack {
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 16) {
+                    ForEach(animeList) { anime in
+                        AnimePosterView(anime: anime)
+                    }
                 }
+                .padding()
             }
+            .navigationTitle("Anime List")
         }
-        .safeAreaPadding()
     }
 }
 
 #Preview(traits: .sampleData) {
     ContentView()
-        .environment(MoviesVM())
+        .environment(AnimeVM())
 }
