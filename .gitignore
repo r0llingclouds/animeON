@@ -1,0 +1,65 @@
+# Xcode
+DerivedData/
+build/
+*.xcworkspace
+!default.xcworkspace
+xcuserdata/
+*.xcodeproj/project.xcworkspace/
+*.xcodeproj/xcuserdata/
+
+# Swift Package Manager
+Packages/
+.package.resolved
+.swiftpm/xcode/package.xcworkspace/
+.swiftpm/xcode/xcuserdata/
+
+# CocoaPods (if used)
+Pods/
+
+# Carthage (if used)
+Carthage/Build/
+
+# Fastlane (if used)
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output/
+
+# Archives
+*.xcarchive
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Swift Data (CoreData/SwiftData lightweight migration artifacts)
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+
+# User-specific files
+*.moved-aside
+*.hmap
+*.ipa
+*.app
+*.DS_Store
+
+# Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# Other
+*.orig
+.idea/
+*.swiftscan
+.swift-version
+
+# Environment
+.env
+
+# Debugging files
+*.lldb
+*.log
+
+# Temporary files
+*.tmp
+*.temp

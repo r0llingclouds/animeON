@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		85F08F4D2DBD01FF00726ECF /* SMP25Kit in Frameworks */ = {isa = PBXBuildFile; productRef = 85F08F4C2DBD01FF00726ECF /* SMP25Kit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		85F08F152DBCFD0B00726ECF /* AnimeON.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimeON.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85F08F4D2DBD01FF00726ECF /* SMP25Kit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = AnimeON;
 			packageProductDependencies = (
+				85F08F4C2DBD01FF00726ECF /* SMP25Kit */,
 			);
 			productName = AnimeON;
 			productReference = 85F08F152DBCFD0B00726ECF /* AnimeON.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = 85F08F0C2DBCFD0B00726ECF;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				85F08F4B2DBD01FF00726ECF /* XCRemoteSwiftPackageReference "SMP25Kit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 85F08F162DBCFD0B00726ECF /* Products */;
 			projectDirPath = "";
@@ -324,6 +333,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		85F08F4B2DBD01FF00726ECF /* XCRemoteSwiftPackageReference "SMP25Kit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/acacademy/SMP25Kit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.5;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		85F08F4C2DBD01FF00726ECF /* SMP25Kit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 85F08F4B2DBD01FF00726ECF /* XCRemoteSwiftPackageReference "SMP25Kit" */;
+			productName = SMP25Kit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 85F08F0D2DBCFD0B00726ECF /* Project object */;
 }

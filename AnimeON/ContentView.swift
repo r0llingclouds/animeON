@@ -6,19 +6,28 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
+    @Environment(MoviesVM.self) private var vm
+    @Query(filter: #Predicate { $0.nowPlaying },
+           sort: [SortDescriptor<Movies>(\.title)])
+        var movies: [Movies]
+    let column = [GridItem(.adaptive(minimum: 150))]
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        ScrollView {
+            LazyVGrid(columns: column) {
+                ForEach(movies) { movie in
+                    PosterView(movie: movie)
+                }
+            }
         }
-        .padding()
+        .safeAreaPadding()
     }
 }
 
-#Preview {
+#Preview(traits: .sampleData) {
     ContentView()
+        .environment(MoviesVM())
 }
