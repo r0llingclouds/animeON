@@ -21,7 +21,7 @@ struct AnimeONApp: App {
                 .onAppear {
                     print("Documents directory: \(URL.documentsDirectory)")
                     
-                    // Run API tests
+                    // debugging: run API test
                     APITester.testAPIConnections()
                 }
         }

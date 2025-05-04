@@ -9,33 +9,22 @@ import SwiftUI
 
 @Observable
 final class AnimeVM {
-    // Get the best available title for display
+
     func getDisplayTitle(anime: Anime) -> String {
-        // Prefer English title if available, otherwise use romaji
-        return anime.englishTitle ?? anime.romajiTitle
+        anime.displayTitle
     }
     
-    // Format anime information for display
+
     func getAnimeInfo(anime: Anime) -> String {
-        var info = [String]()
-        
-        if let episodes = anime.episodes {
-            info.append("\(episodes) episodes")
-        }
-        
-        if let score = anime.averageScore {
-            info.append("Score: \(Int(score))%")
-        }
-        
-        return info.joined(separator: " • ")
+        anime.infoString
     }
     
-    // Get genres as a formatted string
+
     func getGenres(anime: Anime) -> String? {
-        anime.animeGenres?.map(\.genreID).map(\.name).formatted(.list(type: .and))
+        anime.genresString
     }
     
-    // Optional: Add a method to search for anime by title
+    // WIP!
     @MainActor
     func searchAnime(title: String, container: AnimeContainer) async -> Anime? {
         do {

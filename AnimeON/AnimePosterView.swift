@@ -16,7 +16,7 @@ struct AnimePosterView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            // Poster image
+
             if let poster = imageVM.image {
                 Image(uiImage: poster)
                     .resizable()
@@ -39,7 +39,7 @@ struct AnimePosterView: View {
                     }
             }
             
-            // Title and info
+
             VStack(alignment: .leading, spacing: 4) {
                 Text(vm.getDisplayTitle(anime: anime))
                     .font(.headline)
