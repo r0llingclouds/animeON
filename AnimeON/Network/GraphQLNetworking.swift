@@ -7,13 +7,11 @@
 
 import Foundation
 
-// Structure to represent a GraphQL request
 struct GraphQLRequest {
     let query: String
     let variables: [String: Any]
 }
 
-// Extension to our network repository for GraphQL functionality
 extension NetworkRepository {
     func sendGraphQLRequest<T: Decodable>(query: String, variables: [String: Any]) async throws -> T {
         let url = URL(string: "https://graphql.anilist.co")!
@@ -41,7 +39,7 @@ extension NetworkRepository {
             throw NetworkError.httpError(statusCode: httpResponse.statusCode)
         }
         
-        // For debugging
+        // debugging
         if let jsonString = String(data: data, encoding: .utf8) {
             print("API Response: \(jsonString)")
         }
@@ -50,7 +48,6 @@ extension NetworkRepository {
     }
 }
 
-// Error handling for network operations
 enum NetworkError: Error {
     case invalidResponse
     case httpError(statusCode: Int)

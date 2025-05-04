@@ -8,7 +8,6 @@
 import Foundation
 import SMP25Kit
 
-// Keep the existing Repository structure but update it for Anilist
 struct Repository: NetworkRepository {
     var decoder: JSONDecoder {
         let decoder = JSONDecoder()
@@ -17,13 +16,11 @@ struct Repository: NetworkRepository {
     }
 }
 
-// Update the protocol for anime operations
 protocol NetworkRepository: NetworkInteractor, Sendable {
     func getPopularAnime() async throws -> [AnimeDTO]
     func searchAnime(title: String) async throws -> AnimeDTO?
 }
 
-// Implementation for Anilist API
 extension NetworkRepository {
     func getPopularAnime() async throws -> [AnimeDTO] {
         let query = """

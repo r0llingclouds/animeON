@@ -13,14 +13,14 @@ struct APITester {
     static func testAPIConnections() {
         print("Starting API tests...")
         
-        // Test popular anime
+
         Task {
             do {
                 print("Testing getPopularAnime()...")
                 let popularAnime = try await repository.getPopularAnime()
                 print("✅ SUCCESS: Retrieved \(popularAnime.count) popular anime")
                 
-                // Print first anime details as sample
+
                 if let first = popularAnime.first {
                     print("Sample anime: \(first.title.english ?? first.title.romaji ?? "Untitled")")
                     print("ID: \(first.id)")
@@ -30,7 +30,7 @@ struct APITester {
                     print("Cover image URL: \(first.coverImage.large)")
                 }
                 
-                // Test search anime
+
                 print("\nTesting searchAnime()...")
                 if let searchResult = try await repository.searchAnime(title: "Attack on Titan") {
                     print("✅ SUCCESS: Found anime with search")

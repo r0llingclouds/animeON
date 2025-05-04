@@ -12,7 +12,6 @@ struct AnimeResponse: Codable {
     let data: AnimeData
 }
 
-// Contains Media object with anime data
 struct AnimeData: Codable {
     let Media: AnimeDTO?
     let Page: PageData?
@@ -23,7 +22,6 @@ struct PageData: Codable {
     let media: [AnimeDTO]
 }
 
-// Represents an anime from the API
 struct AnimeDTO: Codable, Identifiable {
     let id: Int
     let title: Title

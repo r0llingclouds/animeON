@@ -17,7 +17,7 @@ struct APITestView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                // Search field for testing specific anime search
+
                 HStack {
                     TextField("Search anime...", text: $searchText)
                         .textFieldStyle(RoundedBorderTextFieldStyle())

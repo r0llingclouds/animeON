@@ -13,14 +13,10 @@ actor AnimeContainer {
     let repository = Repository()
     
     func loadInitialData() async throws {
-        // Get popular anime from the API
         let popularAnimeDTO = try await repository.getPopularAnime()
-        
-        // Load them into the database and mark as popular
         let animeEntities = try loadAnime(animeDTO: popularAnimeDTO)
         animeEntities.forEach { $0.isPopular = true }
         
-        // Save changes if needed
         if modelContext.hasChanges {
             try modelContext.save()
         }
@@ -28,7 +24,7 @@ actor AnimeContainer {
     
     func loadAnime(animeDTO: [AnimeDTO]) throws -> [Anime] {
         try animeDTO.map { dto in
-            // Create new anime entity
+            
             let anime = Anime(
                 id: dto.id,
                 englishTitle: dto.title.english,
@@ -40,10 +36,8 @@ actor AnimeContainer {
                 averageScore: dto.averageScore
             )
             
-            // Insert into database
             modelContext.insert(anime)
             
-            // Handle genres if they exist
             if let genres = dto.genres {
                 for genreName in genres {
                     let genre = try getOrCreateGenre(name: genreName)
@@ -56,8 +50,26 @@ actor AnimeContainer {
         }
     }
     
+    private func getOrCreateGenre(name: String) throws -> Genre {
+        let descriptor = FetchDescriptor<Genre>(
+            predicate: #Predicate { $0.name == name }
+        )
+        
+        let existingGenres = try modelContext.fetch(descriptor)
+        
+        if let existing = existingGenres.first {
+            return existing
+        } else {
+            let newGenre = Genre(name: name)
+            modelContext.insert(newGenre)
+            return newGenre
+        }
+    }
+    
+    
+    // WIP!
     func searchAnime(title: String) async throws -> Anime? {
-        // First try searching via API - simpler approach that avoids predicate issues
+        // First try searching via API
         if let animeDTO = try await repository.searchAnime(title: title) {
             // Check if we already have this specific anime in database by ID
             let idDescriptor = FetchDescriptor<Anime>(
@@ -78,19 +90,4 @@ actor AnimeContainer {
         return nil
     }
     
-    private func getOrCreateGenre(name: String) throws -> Genre {
-        let descriptor = FetchDescriptor<Genre>(
-            predicate: #Predicate { $0.name == name }
-        )
-        
-        let existingGenres = try modelContext.fetch(descriptor)
-        
-        if let existing = existingGenres.first {
-            return existing
-        } else {
-            let newGenre = Genre(name: name)
-            modelContext.insert(newGenre)
-            return newGenre
-        }
-    }
 }

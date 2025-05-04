@@ -18,12 +18,32 @@ final class Anime {
     var coverImageURL: URL?
     var episodes: Int?
     var averageScore: Double?
-    
     var isPopular: Bool = false
+
+    @Relationship(deleteRule: .cascade, inverse: \AnimeGenres.animeID) var animeGenres: [AnimeGenres]?
+        
+    var displayTitle: String {
+        englishTitle ?? romajiTitle
+    }
     
-    @Relationship(deleteRule: .cascade, inverse: \AnimeGenres.animeID)
-    var animeGenres: [AnimeGenres]?
+    var infoString: String {
+        var info = [String]()
+        
+        if let episodes = episodes {
+            info.append("\(episodes) episodes")
+        }
+        
+        if let score = averageScore {
+            info.append("Score: \(Int(score))%")
+        }
+        
+        return info.joined(separator: " • ")
+    }
     
+    var genresString: String? {
+        animeGenres?.map(\.genreID).map(\.name).formatted(.list(type: .and))
+    }
+        
     init(id: Int, englishTitle: String?, romajiTitle: String, nativeTitle: String?,
          description: String?, coverImageURL: URL?, episodes: Int?, averageScore: Double?) {
         self.id = id
@@ -35,9 +55,17 @@ final class Anime {
         self.episodes = episodes
         self.averageScore = averageScore
     }
+    
+    func addGenre(_ genre: Genre) {
+        let relation = AnimeGenres(animeID: self, genreID: genre)
+        animeGenres?.append(relation)
+    }
+    
+    func removeGenre(_ genre: Genre) {
+        animeGenres?.removeAll { $0.genreID == genre }
+    }
 }
 
-// Preview helper
 extension Anime {
     @MainActor static var sampleAnime: Anime {
         let anime = Anime(
