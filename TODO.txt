@@ -1,0 +1,89 @@
+# AnimeON - Improvement TODO List
+
+## HIGH PRIORITY
+
+### Error Handling & User Feedback
+- [ ] Add proper error states in ContentView (network failures, no data)
+- [ ] Make NetworkError conform to LocalizedError for user-friendly messages
+- [ ] Replace print statements with proper error presentation to users
+- [ ] Add error recovery mechanisms (retry buttons)
+
+### Loading States & UX
+- [ ] Add loading indicators in ContentView while fetching anime
+- [ ] Implement pull-to-refresh functionality
+- [ ] Add empty state when no anime are available
+- [ ] Show loading states for individual poster images
+
+### Core Missing Features
+- [ ] Implement anime detail view with full information
+- [ ] Add search interface to main app (currently only in test)
+- [ ] Add navigation from poster grid to detail views
+- [ ] Remove debug/test code from production app launch
+
+## MEDIUM PRIORITY
+
+### Performance & Caching
+- [ ] Implement image caching system (replace ImageVM per-poster approach)
+- [ ] Add pagination for anime list (currently loads all at once)
+- [ ] Optimize SwiftData queries and relationships
+- [ ] Add request cancellation support for better performance
+
+### Features
+- [ ] Add favorites/watchlist functionality
+- [ ] Implement genre filtering
+- [ ] Add sorting options (popularity, rating, year)
+- [ ] Add user preferences and settings
+- [ ] Implement offline viewing support
+
+### Architecture Improvements
+- [ ] Add dependency injection for Repository and networking
+- [ ] Create protocols for better testability
+- [ ] Implement proper state management pattern
+- [ ] Separate business logic from UI components
+- [ ] Make ViewModel more robust (currently just forwards calls)
+
+## LOW PRIORITY
+
+### Accessibility
+- [ ] Add VoiceOver support and accessibility labels
+- [ ] Implement proper accessibility hints for images
+- [ ] Add Dynamic Type support for text scaling
+- [ ] Test with accessibility tools
+
+### Code Quality
+- [ ] Simplify SwiftData many-to-many relationships
+- [ ] Add comprehensive unit tests
+- [ ] Implement UI tests for key workflows
+- [ ] Add proper documentation and comments
+- [ ] Standardize naming conventions across codebase
+
+### Polish & Maintenance
+- [ ] Add data migration strategy for SwiftData
+- [ ] Implement cache management and cleanup
+- [ ] Add analytics/crash reporting
+- [ ] Optimize image loading animations
+- [ ] Add haptic feedback for interactions
+- [ ] Implement deep linking support
+
+### Advanced Features
+- [ ] Add personalized recommendations
+- [ ] Implement user accounts and sync
+- [ ] Add anime trailers/videos
+- [ ] Create custom anime lists
+- [ ] Add sharing functionality
+- [ ] Implement push notifications for new episodes
+
+## TECHNICAL DEBT
+
+### Immediate Cleanup
+- [ ] Remove hardcoded strings, use localization
+- [ ] Clean up debug prints and test code
+- [ ] Fix inconsistent async/await patterns
+- [ ] Optimize string operations in genre handling
+
+### Long-term Maintenance
+- [ ] Add CI/CD pipeline
+- [ ] Implement automated testing
+- [ ] Add code coverage reporting
+- [ ] Create development/staging environments
+- [ ] Add proper logging framework
